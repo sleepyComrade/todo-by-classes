@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 800px;
+  width: 800px;
+  margin: auto;
+  background-color: rgb(231, 231, 231);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.overlay { 
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+
+.popup-wrap {
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-80%, -50%);
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  background-color: rgb(196, 196, 196);
+  box-shadow: 0 0 4px 2px rgb(107, 104, 104), 0 0 10px 2px rgb(114, 113, 113);
+  border-radius: 10px;
+}
+
+.openButton {
+  align-self: flex-start;
+  margin-top: 5%;
+  margin-left: 10%;
+  width: 5%;
+  height: 5%;
+  font-size: 22px;
+  border-radius: 10px;
+  background-color: rgb(137, 185, 137);
+  cursor: pointer;
+}
+
+.task-list {
+  position: relative;
+  width: 30%;
+  height: 100%;
+  background-color: rgb(137, 185, 137);
+}
+
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(244, 92, 92, 0.852);
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.popup-input {
+  width: 80%;
+  padding: 3px 5px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.state-wrap {
+  width: fit-content;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  background-color: rgb(250, 250, 250);
+  border-radius: 5px;
+}
+
+.apply-button {
+  min-width: 60px;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.task-wrap {
+  width: 90%;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px auto;
+  padding: 0 5px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 2px 1px rgb(107, 104, 104), 0 0 5px 1px rgb(114, 113, 113);
+  border-radius: 5px;
+}
+
+.task-done {
+  text-decoration: line-through;
+  color: rgb(100, 100, 100);
+}
+
+.close-task-button,
+.edit-task-button {
+  margin-left: 3px;
+  padding: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-task-button {
+  background-color: rgba(244, 92, 92, 0.852);
+}
