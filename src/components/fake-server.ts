@@ -1,12 +1,13 @@
 class FakeServer{
   _data;
-  
-  constructor(initial){
+  idInitial: number;
+
+  constructor(initial: { name: string, done: boolean, id?: number }[]){
     this._data = JSON.parse(JSON.stringify(initial));
     this.idInitial = this._data.length;
   }
 
-  _fakeSend(data){
+  _fakeSend(data: { name: string, done: boolean, id?: number }[]){
     return new Promise((res, rej)=>{
       setTimeout(()=>{
         
@@ -23,14 +24,14 @@ class FakeServer{
     return this._fakeSend(this._data);
   }
 
-  addItem(itemData){
+  addItem(itemData: { name: string, done: boolean, id?: number }){
     this._data.push(itemData);
     return this._fakeSend(this._data);
   }
 
-  removeItem(id){
+  removeItem(id: number){
     let num;
-    this._data.forEach((el, i) => {
+    this._data.forEach((el: { name: string, done: boolean, id?: number }, i: number) => {
       if (el.id === id) {
         num = i;
       }
@@ -41,7 +42,7 @@ class FakeServer{
     return this._fakeSend(this._data);
   }
 
-  editItem(id, itemData){
+  editItem(id: number, itemData: { name: string, done: boolean, id?: number }){
     this._data.splice(id, 1, itemData);
     return this._fakeSend(this._data);
   }
@@ -54,13 +55,13 @@ class FakeServer{
     this.idInitial--;
   }
 
-  getIdNum(itemData) {
+  getIdNum(itemData: { name: string, done: boolean, id?: number }) {
     itemData.id = this.idInitial;
     this.idInitial++;
   }
 }
 
-const initialData = [
+const initialData: { name: string, done: boolean, id?: number }[] = [
   {
     name: 'a',
     done: true,
