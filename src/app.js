@@ -216,7 +216,7 @@ class Task {
   }
 }
 
-class Todo {
+export class Todo {
   constructor(api) {
     this.api = api;
     this.mainWrap = new MainWrap(document.body);
@@ -229,5 +229,3 @@ class Todo {
     this.addButton = new AddButton(this.showPopup, this.mainWrap, this.taskList);
   }
 }
-
-const todo = new Todo(api);
