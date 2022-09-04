@@ -1,10 +1,14 @@
 import { Task } from "./task";
+import { Api } from "./fake-server";
+import { ServerTaskItem } from "./i-server-item";
+import { TodoTaskList } from "./task-list";
+import { Wrap } from "./main-wrap";
 
 export class PopUp {
-  api: any;
-  parent: any;
-  taskList: HTMLElement;
-  showPopup: (parent: HTMLElement, list: HTMLElement, initialData: { name: string, done: boolean, id?: number } | undefined, isNew: boolean) => HTMLElement;
+  api: Api;
+  parent: Wrap;
+  taskList: TodoTaskList;
+  showPopup: (parent: Wrap, list: TodoTaskList, initialData: ServerTaskItem, isNew: boolean) => HTMLElement;
   overlay
   popup
   button
@@ -14,9 +18,9 @@ export class PopUp {
   checkbox
   stateDesc
   isNew
-  itemData: any;
+  itemData: ServerTaskItem;
   onClose: any;
-  constructor(parent: HTMLElement, taskList: HTMLElement, showPopup: (parent: HTMLElement, list: HTMLElement, initialData: { name: string, done: boolean, id?: number } | undefined, isNew: boolean) => HTMLElement, api: any, initialData: { name: string, done: boolean, id?: number } | undefined, isNew: boolean) {
+  constructor(parent: Wrap, taskList: TodoTaskList, showPopup: (parent: Wrap, list: TodoTaskList, initialData: ServerTaskItem, isNew: boolean) => HTMLElement, api: Api, initialData: ServerTaskItem, isNew: boolean) {
     this.api = api;
     this.parent = parent;
     this.taskList = taskList;
@@ -97,12 +101,12 @@ export class PopUp {
       this.api.getIdNum(this.itemData);
 
       this.applybutton.textContent = 'loading...';
-      this.api.addItem(this.itemData).then((res: any) => {
+      this.api.addItem(this.itemData).then((res) => {
         console.log(res);
         this.applybutton.textContent = 'Ok';
         const task = new Task(this.taskList, this.showPopup, this.input.value, this.parent, this.api, this.itemData);
         this.closePopup();
-      }).catch((err: any) => {
+      }).catch((err) => {
         console.log('rejected');
         this.applybutton.textContent = 'rejected';
         this.api.removeErrItem();
@@ -110,16 +114,20 @@ export class PopUp {
       });
     } else if (!this.isNew) {
       this.applybutton.textContent = 'loading...';
-      this.api.editItem(this.itemData.id, this.itemData).then((res: any) => {
-        console.log(res);
-        this.applybutton.textContent = 'Ok';
-        this.onClose(this.itemData.done, this.input.value);
-        this.closePopup();
-      }).catch((err: any) => {
-        console.log('rejected');
-        this.applybutton.textContent = 'rejected';
-        this.api.removeErrItem();
-      });
+      if (this.itemData.id) {
+        this.api.editItem(this.itemData.id, this.itemData).then((res) => {
+          console.log(res);
+          this.applybutton.textContent = 'Ok';
+          this.onClose(this.itemData.done, this.input.value);
+          this.closePopup();
+        }).catch((err) => {
+          console.log('rejected');
+          this.applybutton.textContent = 'rejected';
+          this.api.removeErrItem();
+        });
+      }
     }
   }
 }
+
+export type TodoPopup = PopUp;

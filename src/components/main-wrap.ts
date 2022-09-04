@@ -6,3 +6,5 @@ export class MainWrap {
     parent.append(this.wrap);
   }
 }
+
+export type Wrap = MainWrap;

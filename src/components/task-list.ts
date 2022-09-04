@@ -6,3 +6,5 @@ export class TaskList {
     parent.wrap.append(this.list);
   }
 }
+
+export type TodoTaskList = TaskList;

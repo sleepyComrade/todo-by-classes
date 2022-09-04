@@ -1,15 +1,20 @@
+import { Api } from "./fake-server";
+import { ServerTaskItem } from "./i-server-item";
+import { TodoTaskList } from "./task-list";
+import { Wrap } from "./main-wrap";
+
 export class Task {
-  api: any;
-  itemData: { name: string, done: boolean, id?: number };
-  parent: any;
+  api: Api;
+  itemData: ServerTaskItem;
+  parent: TodoTaskList;
   value: string;
-  mainWrap: HTMLElement;
+  mainWrap: Wrap;
   task
   text
   control
   closeBtn
   editBtn
-  constructor(parent: HTMLElement, edit: (parent: HTMLElement, list: HTMLElement, initialData: { name: string, done: boolean, id?: number } | undefined, isNew: boolean) => HTMLElement, value: string, mainWrap: HTMLElement, api: any, itemData: { name: string, done: boolean, id?: number }) {
+  constructor(parent: TodoTaskList, edit: (parent: Wrap, list: TodoTaskList, initialData: ServerTaskItem, isNew: boolean) => any, value: string, mainWrap: Wrap, api: Api, itemData: ServerTaskItem) {
     this.api = api;
     this.itemData = itemData;
     this.parent = parent;
@@ -36,13 +41,15 @@ export class Task {
     this.closeBtn.textContent = 'x';
     this.closeBtn.onclick = () => {
       this.closeBtn.textContent = 'loading...';
-      this.api.removeItem(this.itemData.id).then((res: any) => {
-        this.closeBtn.textContent = 'x';
-        this.task.remove();
-      }).catch((err: any) => {
-        console.log('rejected');
-        this.closeBtn.textContent = 'rejected';
-      });
+      if (this.itemData.id) {
+        this.api.removeItem(this.itemData.id).then((res) => {
+          this.closeBtn.textContent = 'x';
+          this.task.remove();
+        }).catch((err) => {
+          console.log('rejected');
+          this.closeBtn.textContent = 'rejected';
+        });
+      }
     };
     this.control.append(this.closeBtn);
 
@@ -50,7 +57,7 @@ export class Task {
     this.editBtn.className = 'edit-task-button';
     this.editBtn.textContent = 'edit';
     this.editBtn.onclick = () => {
-      const popUp: any = edit(this.mainWrap, this.parent, this.itemData, false);
+      const popUp = edit(this.mainWrap, this.parent, this.itemData, false);
       popUp.onClose = (done: boolean, value: string) => {
         if (done) {
           this.text.classList.add('task-done');

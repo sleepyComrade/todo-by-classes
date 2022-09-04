@@ -1,13 +1,15 @@
+import { ServerTaskItem } from "./i-server-item";
+
 class FakeServer{
   _data;
   idInitial: number;
 
-  constructor(initial: { name: string, done: boolean, id?: number }[]){
+  constructor(initial: ServerTaskItem[]){
     this._data = JSON.parse(JSON.stringify(initial));
     this.idInitial = this._data.length;
   }
 
-  _fakeSend(data: { name: string, done: boolean, id?: number }[]){
+  _fakeSend(data: ServerTaskItem[]): Promise <string>{
     return new Promise((res, rej)=>{
       setTimeout(()=>{
         
@@ -24,14 +26,14 @@ class FakeServer{
     return this._fakeSend(this._data);
   }
 
-  addItem(itemData: { name: string, done: boolean, id?: number }){
+  addItem(itemData: ServerTaskItem){
     this._data.push(itemData);
     return this._fakeSend(this._data);
   }
 
   removeItem(id: number){
     let num;
-    this._data.forEach((el: { name: string, done: boolean, id?: number }, i: number) => {
+    this._data.forEach((el: ServerTaskItem, i: number) => {
       if (el.id === id) {
         num = i;
       }
@@ -42,7 +44,7 @@ class FakeServer{
     return this._fakeSend(this._data);
   }
 
-  editItem(id: number, itemData: { name: string, done: boolean, id?: number }){
+  editItem(id: number, itemData: ServerTaskItem){
     this._data.splice(id, 1, itemData);
     return this._fakeSend(this._data);
   }
@@ -55,13 +57,13 @@ class FakeServer{
     this.idInitial--;
   }
 
-  getIdNum(itemData: { name: string, done: boolean, id?: number }) {
+  getIdNum(itemData: ServerTaskItem) {
     itemData.id = this.idInitial;
     this.idInitial++;
   }
 }
 
-const initialData: { name: string, done: boolean, id?: number }[] = [
+const initialData: ServerTaskItem[] = [
   {
     name: 'a',
     done: true,
@@ -75,4 +77,6 @@ const initialData: { name: string, done: boolean, id?: number }[] = [
     done: false
   }
 ];
+
+export type Api = FakeServer;
 export const api = new FakeServer(initialData);
