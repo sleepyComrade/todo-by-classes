@@ -1,12 +1,9 @@
-import { MainWrap } from "./main-wrap";
+import { MainWrap, Wrap } from "./main-wrap";
 import { PopUp } from "./popup";
-import { AddButton } from "./add-button";
-import { TaskList } from "./task-list";
+import { AddButton, TodoAddBtn } from "./add-button";
+import { TaskList, TodoTaskList } from "./task-list";
 import { Api } from "./fake-server";
 import { ServerTaskItem } from "./i-server-item";
-import { Wrap } from "./main-wrap";
-import { TodoTaskList } from "./task-list";
-import { TodoAddBtn } from "./add-button";
 
 export class Todo {
   api: Api;
